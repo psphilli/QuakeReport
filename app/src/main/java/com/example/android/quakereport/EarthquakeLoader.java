@@ -4,6 +4,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Loader;
 import android.content.Context;
 import android.accounts.OperationCanceledException;
+import android.util.Log;
 
 import java.util.List;
 
@@ -11,10 +12,10 @@ import java.util.List;
  * Created by psphilli on 3/28/2018.
  */
 
-public class EarthquakeLoader extends AsyncTaskLoader {
+class EarthquakeLoader extends AsyncTaskLoader {
 
     private static final String LOG_TAG = EarthquakeLoader.class.getName();
-    private String mUrl;
+    private final String mUrl;
 
     public EarthquakeLoader(Context context, String url) {
         super(context);
@@ -28,6 +29,7 @@ public class EarthquakeLoader extends AsyncTaskLoader {
      */
     @Override
     protected void onStartLoading() {
+        Log.e(LOG_TAG, "onStartLoading");
         forceLoad();
     }
 
@@ -51,13 +53,13 @@ public class EarthquakeLoader extends AsyncTaskLoader {
      * result object, if any.
      *
      * @return The result of the load operation.
-     * @throws OperationCanceledException if the load is canceled during execution.
      * @see #isLoadInBackgroundCanceled
-     * @see #cancelLoadInBackground
      * @see #onCanceled
      */
     @Override
     public List<Earthquake> loadInBackground() {
+        Log.e(LOG_TAG, "loadInBackground");
+
         if (mUrl == null) {
             return null;
         }

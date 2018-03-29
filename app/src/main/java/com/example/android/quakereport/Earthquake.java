@@ -1,24 +1,22 @@
 package com.example.android.quakereport;
 
-import java.util.Date;
-
 /**
  * {@link Earthquake} represents information for a single earth quake.
  * Each object has 3 properties: magnitude, location, and event date.
  */
-public class Earthquake {
+class Earthquake {
 
     // Magnitude of the earthquake
-    private double mMagnitude;
+    private final double mMagnitude;
 
     // Location where the earthquake occurred
-    private String mLocation;
+    private final String mLocation;
 
     // Time which the earthquake occurred
-    private long mTimeInMilliseconds;
+    private final long mTimeInMilliseconds;
 
     // Time which the earthquake occurred
-    private String mUrl;
+    private final String mUrl;
 
     /**
      * Constructs a new {@link Earthquake} object.

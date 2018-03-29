@@ -16,29 +16,26 @@
 package com.example.android.quakereport;
 
 import android.app.LoaderManager;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Earthquake>>{
 
-    public static final String LOG_TAG = EarthquakeActivity.class.getName();
+    private static final String LOG_TAG = EarthquakeActivity.class.getName();
 
-    public static final int EARTHQUAKE_LOADER_ID = 1;
-    public static final String EARTHQUAKE_URL_EXTRA = "url_that_return_earthquake_json_data";
+    private static final int EARTHQUAKE_LOADER_ID = 1;
 
     /** URL for earthquake data from the USGS dataset */
     private static final String USGS_REQUEST_URL =
@@ -46,6 +43,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     /** Adapter for the list of earthquakes */
     private EarthquakeAdapter mAdapter;
+
+    /** TextView that is displayed when the list is empty */
+    private TextView mEmptyStateTextView;
 
     /**
      * Instantiate and return a new Loader for the given ID.  LoaderManager has determined that the loader
@@ -57,6 +57,8 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
      */
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
+        Log.e(LOG_TAG, "onCreateLoader");
+
         return new EarthquakeLoader(this, USGS_REQUEST_URL);
     }
 
@@ -81,6 +83,8 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
      */
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        Log.e(LOG_TAG, "onLoadFinished");
+
         // Clear the adapter of previous earthquake data
         mAdapter.clear();
 
@@ -89,6 +93,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         if (earthquakes != null && !earthquakes.isEmpty()) {
             mAdapter.addAll(earthquakes);
         }
+
+        // Set empty state text to display "No earthquakes found."
+        mEmptyStateTextView.setText(R.string.no_earthquakes_found);
     }
 
     /**
@@ -100,10 +107,11 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
      */
     @Override
     public void onLoaderReset(Loader<List<Earthquake>> loader) {
+        Log.e(LOG_TAG, "onLoaderReset");
+
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +120,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        earthquakeListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of earthquakes as input
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
@@ -131,6 +142,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
         // because this activity implements the LoaderCallbacks interface).
         loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        Log.e(LOG_TAG, "calling loaderManager.initLoader");
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
