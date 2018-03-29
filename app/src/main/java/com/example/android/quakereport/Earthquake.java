@@ -14,41 +14,54 @@ public class Earthquake {
     // Location where the earthquake occurred
     private String mLocation;
 
-    // Date which the earthquake occurred
-    private String mEventDate;
+    // Time which the earthquake occurred
+    private long mTimeInMilliseconds;
 
-    /*
-    * Create a new Earthquake object.
-    *
-    * @param magnitude is the magnitude of the earthquake
-    * @param location is the location where the earthquake occurred
-    * @param eventDate is date which the earthquake occurred
-    * */
-    public Earthquake(double magnitude, String location, String eventDate)
+    // Time which the earthquake occurred
+    private String mUrl;
+
+    /**
+     * Constructs a new {@link Earthquake} object.
+     *
+     * @param magnitude is the magnitude (size) of the earthquake
+     * @param location is the location where the earthquake happened
+     * @param timeInMilliseconds is the time in milliseconds (from the Epoch) when the
+     *                           earthquake happened
+     * @param url is the URL for the earthquake's USGS webpage
+     */
+    public Earthquake(double magnitude, String location, long timeInMilliseconds, String url)
     {
         mMagnitude = magnitude;
         mLocation = location;
-        mEventDate = eventDate;
+        mTimeInMilliseconds = timeInMilliseconds;
+        mUrl = url;
     }
 
     /**
-     * Get the name of the earthquake magnitude
+     * Returns the magnitude of the earthquake.
      */
     public double getMagnitude() {
         return mMagnitude;
     }
 
     /**
-     * Get the earthquake location
+     * Returns the earthquake location
      */
     public String getLocation() {
         return mLocation;
     }
 
     /**
-     * Get the earthquake event date
+     * Returns the time of the earthquake.
      */
-    public String getEventDate() {
-        return mEventDate;
+    public long getTimeInMilliseconds() {
+        return mTimeInMilliseconds;
+    }
+
+    /**
+     * Returns the USGS webpage for the earthquake.
+     */
+    public String getUrl() {
+        return mUrl;
     }
 }
