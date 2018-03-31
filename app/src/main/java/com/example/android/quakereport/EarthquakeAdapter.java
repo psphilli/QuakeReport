@@ -14,15 +14,12 @@ import java.util.Date;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Objects;
 
 /*
 * {@link EarthquakeAdapter} is an {@link ArrayAdapter} that can provide the layout for each list
 * based on a data source, which is a list of {@link Earthquake} objects.
 * */
 class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
-
-    private static final String LOG_TAG = EarthquakeAdapter.class.getSimpleName();
 
     /**
      * This is our own custom constructor (it doesn't mirror a superclass constructor).
@@ -57,7 +54,7 @@ class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         // Get the {@link Earthquake} object located at this position in the list
         Earthquake currentEarthquake = getItem(position);
 
-        // Find the magnitude TextView in the earthquake_list_iteme_list_item.xml layout and set value
+        // Find the magnitude TextView in the earthquake_list_item_list_item.xml layout and set value
         TextView magnitudeView = listItemView.findViewById(R.id.magnitude);
         DecimalFormat formatter = new DecimalFormat("0.00");
         magnitudeView.setText(formatter.format(currentEarthquake.getMagnitude()));

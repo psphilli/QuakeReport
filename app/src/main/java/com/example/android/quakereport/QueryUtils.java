@@ -52,6 +52,12 @@ final class QueryUtils {
     public static List<Earthquake> fetchEarthquakeData(String requestUrl) {
         Log.e(LOG_TAG, "fetchEarthquakeData");
 
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -64,10 +70,8 @@ final class QueryUtils {
         }
 
         // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
-        List<Earthquake> earthquakes = extractFeatureFromJson(jsonResponse);
-
         // Return the list of {@link Earthquake}s
-        return earthquakes;
+        return extractFeatureFromJson(jsonResponse);
     }
 
     /**
@@ -81,7 +85,7 @@ final class QueryUtils {
         }
 
         // Create an empty ArrayList that we can start adding earthquakes to
-        List<Earthquake> earthquakes = new ArrayList<Earthquake>();
+        List<Earthquake> earthquakes = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
